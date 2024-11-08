@@ -1,0 +1,90 @@
+from typing import Optional, List
+
+# Definición de la clase ListNode para la lista enlazada
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+# Función para convertir una lista de Python a una lista enlazada
+def lista_a_enlazada(lista: List[int]) -> Optional[ListNode]:
+    head = ListNode(lista[0])
+    current = head
+    for val in lista[1:]:
+        current.next = ListNode(val)
+        current = current.next
+    return head
+
+# Función que llena la matriz espiralmente
+def llenar_matriz_espiral(m: int, n: int, head: Optional[ListNode]) -> List[List[int]]:
+    # Crear la matriz vacía
+    matriz = [[-1] * n for _ in range(m)]
+    
+    # Recorremos la lista enlazada y la convertimos en una lista de valores
+    valores = []
+    current = head
+    while current:
+        valores.append(current.val)
+        current = current.next
+    
+    # Si no hay suficientes valores en la lista, rellenar con -1
+    idx = 0
+    
+    # Definir las direcciones para el recorrido en espiral
+    top, bottom, left, right = 0, m - 1, 0, n - 1
+    
+    while top <= bottom and left <= right:
+        # Rellenar de izquierda a derecha en la fila superior
+        for i in range(left, right + 1):
+            if idx < len(valores):
+                matriz[top][i] = valores[idx]
+                idx += 1
+            else:
+                matriz[top][i] = -1
+        top += 1
+        
+        # Rellenar de arriba a abajo en la columna derecha
+        for i in range(top, bottom + 1):
+            if idx < len(valores):
+                matriz[i][right] = valores[idx]
+                idx += 1
+            else:
+                matriz[i][right] = -1
+        right -= 1
+        
+        if top <= bottom:
+            # Rellenar de derecha a izquierda en la fila inferior
+            for i in range(right, left - 1, -1):
+                if idx < len(valores):
+                    matriz[bottom][i] = valores[idx]
+                    idx += 1
+                else:
+                    matriz[bottom][i] = -1
+            bottom -= 1
+        
+        if left <= right:
+            # Rellenar de abajo hacia arriba en la columna izquierda
+            for i in range(bottom, top - 1, -1):
+                if idx < len(valores):
+                    matriz[i][left] = valores[idx]
+                    idx += 1
+                else:
+                    matriz[i][left] = -1
+            left += 1
+    
+    return matriz
+
+# Ejemplo de uso
+head = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3]
+m = 4
+n = 3
+
+# Convertir la lista de Python a lista enlazada
+head_node = lista_a_enlazada(head)
+
+# Llamar a la función para llenar la matriz en espiral
+matriz_espiral = llenar_matriz_espiral(m, n, head_node)
+
+# Mostrar la matriz resultante
+for fila in matriz_espiral:
+    print(fila)
