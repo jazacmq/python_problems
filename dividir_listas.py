@@ -1,3 +1,6 @@
+#Dividir una lista en partes iguales priorizando los primeros elementos si es que no se puede en partes iguales
+
+
 #definition for singly linked_list
 from typing import Optional,List
 
