@@ -1,3 +1,6 @@
+#DE una lista encontrar la cantidad de pares que existen.
+
+
 #!/bin/python3
 
 import math
